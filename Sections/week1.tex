@@ -1,0 +1,241 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+
+\definecolor{primary}{RGB}{0, 105, 148}
+\definecolor{secondary}{RGB}{10, 150, 120}
+
+\title{\vspace{-2cm}\textbf{\textcolor{primary}{Probability Notes}}\\\Large{Random Variables, Expectation, and Key Distributions}}
+\author{Transcribed Notes}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{\textcolor{secondary}{1. Random Variables and Expectation}}
+
+\begin{itemize}
+    \item \textbf{Discrete random variables} $\rightarrow$ probability mass function (pmf): 
+    \[ p(x) = P(X=x) \]
+    \item \textbf{Continuous random variables} $\rightarrow$ probability density function (pdf): 
+    \[ P(a \leq X \leq b) = \int_a^b f(x) \, dx \]
+\end{itemize}
+
+\subsection*{Expectation ($E[X]$) $\rightarrow$ probability weighted average}
+\begin{align*}
+    \text{Discrete} &\rightarrow E[X] = \sum x_i p_i \\
+    \text{Continuous} &\rightarrow E[X] = \int x f(x) \, dx
+\end{align*}
+
+\textbf{2 properties of expectation:}
+\begin{enumerate}
+    \item \textbf{Linearity:} $E[aX + bY] = aE[X] + bE[Y]$
+    \item \textbf{Indicator trick:} for event $A$, $E[1_A] = P(A)$ 
+    \\ \textit{(random variable when its value is 1 if it happens, otherwise 0)}
+\end{enumerate}
+
+\section*{\textcolor{secondary}{2. Variance and Key Properties}}
+
+\textbf{Variance:} $Var(X) = E[X^2] - (E[X])^2$
+
+\textbf{Derivation:}
+\begin{align*}
+    Var(X) &= E[(X-\mu)^2] \quad (\mu \rightarrow \text{mean}) \\
+    &= E[(X - E[X])^2] \\
+    &= E[X^2 - 2X E[X] + (E[X])^2] \quad (\text{Note: } E[X] \text{ is constant})\\
+    &= E[X^2] - 2E[X E[X]] + (E[X])^2 \\
+    &= E[X^2] - 2E[X]E[X] + (E[X])^2 \\
+    &= E[X^2] - (E[X])^2
+\end{align*}
+
+\textbf{Standard Deviation:} $\sqrt{Var(X)}$ \quad \textit{(By defn)}
+
+\subsection*{Properties of Variance}
+\begin{enumerate}
+    \item \textbf{Constant:} $Var(aX+b) = a^2 Var(X)$
+    \begin{align*}
+        Var(aX+b) &= E[((aX+b) - E[aX+b])^2] \quad \textit{(By defn)} \\
+        &= E[((aX+b) - (aE[X]+b))^2] \\
+        &= E[(aX - aE[X])^2] \\
+        &= E[a^2(X-E[X])^2] \\
+        &= a^2 Var(X)
+    \end{align*}
+    
+    \item \textbf{Sum:} $Var(X+Y) = Var(X) + Var(Y) + 2Cov(X,Y)$
+    \begin{align*}
+        Var(X+Y) &= E[((X+Y) - (E[X]+E[Y]))^2] \\
+        &= E[((X-E[X]) + (Y-E[Y]))^2] \\
+        &= Var(X) + Var(Y) + 2E[XY + E[X]E[Y] - XE[Y] - YE[X]] \\
+        &= Var(X) + Var(Y) + 2\underbrace{(E[XY] - E[X]E[Y])}_{Cov(X,Y) \text{ (By defn)}} \\
+        &= Var(X) + Var(Y) + 2Cov(X,Y)
+    \end{align*}
+
+    \item \textbf{If $X$ and $Y$ are independent:}
+    \begin{align*}
+        Var(X+Y) &= Var(X) + Var(Y) \quad \text{i.e. } Cov(X,Y) = 0
+    \end{align*}
+    \textit{coz for independent $X$ and $Y$, $E[XY] = E[X]E[Y]$}
+\end{enumerate}
+
+\section*{\textcolor{secondary}{3. Some Common Probability Distributions}}
+
+\subsection*{Discrete Distributions}
+
+\subsubsection*{1) Bernoulli}
+pmf $\rightarrow P(X=1) = p$ (success), $P(X=0) = 1-p$
+\begin{itemize}
+    \item \textbf{mean $\rightarrow E[X] = p$}
+    \begin{align*}
+        E[X] &= \sum x \cdot p(x) \quad \textit{(coz discrete)} \\
+        &= 1 \cdot p + 0 \cdot (1-p) \\
+        &= p
+    \end{align*}
+    \item \textbf{variance $\rightarrow Var(X) = p(1-p)$}
+    \begin{align*}
+        Var(X) &= E[X^2] - (E[X])^2 \\
+        &= (1^2 \cdot p + 0^2 \cdot (1-p)) - p^2 \\
+        &= p - p^2 \\
+        &= p(1-p)
+    \end{align*}
+\end{itemize}
+
+\subsubsection*{2) Binomial}
+pmf $\rightarrow P(X=k) = \binom{n}{k} p^k (1-p)^{n-k}$ \quad \textit{($n \rightarrow$ total trials, $k \rightarrow$ success)}
+\begin{itemize}
+    \item \textbf{mean $\rightarrow E[X] = np$}
+    \begin{align*}
+        E[X] &= \sum_{k=0}^n k \cdot \binom{n}{k} p^k (1-p)^{n-k} \\
+        &= \sum_{k=1}^n n \binom{n-1}{k-1} p^k (1-p)^{n-k} \\
+        &= np \sum_{k=1}^n \binom{n-1}{k-1} p^{k-1} (1-p)^{n-k} \\
+        &= np(p + (1-p))^{n-1} \\
+        &= np
+    \end{align*}
+    \item \textbf{variance $\rightarrow Var(X) = np(1-p)$}
+    
+    Using $E[X^2] - (E[X])^2$, we calculate $E[X(X-1)] + E[X]$:
+    \begin{align*}
+        E[X(X-1)] &= \sum_{k=0}^n k(k-1) \binom{n}{k} p^k (1-p)^{n-k} \\
+        &= \sum_{k=2}^n n(n-1) \binom{n-2}{k-2} p^k (1-p)^{n-k} \\
+        &= n(n-1)p^2 \sum_{k=2}^n \binom{n-2}{k-2} p^{k-2} (1-p)^{n-k} \\
+        &= n(n-1)p^2(p + 1-p)^{n-2} \\
+        &= n(n-1)p^2
+    \end{align*}
+    So, $Var(X) = n(n-1)p^2 + np - (np)^2 = np(1-p)$
+
+    \textbf{OR Use indicator trick!!!}
+    \\ $X = I_1 + I_2 + \dots + I_n$ where $I_i$ represents event for $i^{th}$ trial.
+    \begin{align*}
+        E[X] &= \sum_{i=1}^n E[I_i] = np \quad \textit{(coz $E[I_i] = p$ for each $1 \leq i \leq n$)} \\
+        Var(X) &= \sum_{i=1}^n Var(I_i) = np(1-p) \quad \textit{(coz $Var(I_i) = p(1-p)$ for each $1 \leq i \leq n$)}
+    \end{align*}
+\end{itemize}
+
+\subsubsection*{3) Poisson}
+Binomial to Poisson $\rightarrow$ imagine taking $n$ trials and multiplying them toward infinity, while prob. $p$ of each trial shrinks towards zero, such that avg rate of success ($n \times p$) remains const. $\rightarrow$ this constant is $\lambda$ (rate).
+
+pmf $\rightarrow P(X=k) = \frac{e^{-\lambda} \lambda^k}{k!}$ for $k \geq 0$
+
+\textit{Binomial dist. $\rightarrow$ Binomial thm. Poisson dist. $\rightarrow$ Taylor series (expansion of $e^x$): $e^x = \sum_{k=0}^\infty \frac{x^k}{k!}$}
+
+\begin{itemize}
+    \item \textbf{mean $\rightarrow E[X] = \lambda$}
+    \begin{align*}
+        E[X] &= \sum_{k=0}^\infty k \cdot \frac{e^{-\lambda} \lambda^k}{k!} 
+        = \sum_{k=1}^\infty \frac{e^{-\lambda} \lambda^k}{(k-1)!} 
+        = \lambda e^{-\lambda} \sum_{k=1}^\infty \frac{\lambda^{k-1}}{(k-1)!} 
+        = \lambda e^{-\lambda} e^{\lambda} = \lambda
+    \end{align*}
+
+    \item \textbf{variance $\rightarrow Var(X) = \lambda$}
+    \begin{align*}
+        Var(X) &= E[X^2] - (E[X])^2 \quad \textit{($E[X^2]$ computed using $E[X(X-1)] + E[X]$)} \\
+        E[X(X-1)] &= \sum_{k=0}^\infty k(k-1) \frac{e^{-\lambda} \lambda^k}{k!} 
+        = \lambda^2 e^{-\lambda} \sum_{k=2}^\infty \frac{\lambda^{k-2}}{(k-2)!} 
+        = \lambda^2 e^{-\lambda} e^{\lambda} = \lambda^2 \\
+        Var(X) &= (\lambda^2 + \lambda) - \lambda^2 = \lambda
+    \end{align*}
+    \textit{\# For Poisson's dist. both mean and variance are $\lambda$.}
+\end{itemize}
+
+\newpage
+\subsection*{Continuous Distributions}
+\textit{\# Total area = 1 ofc}
+
+\subsubsection*{1) Uniform}
+pdf $\rightarrow f(x) = \frac{1}{b-a}$ for $a \leq x \leq b$ ($a \rightarrow$ lower limit, $b \rightarrow$ upper limit)
+\begin{itemize}
+    \item \textbf{mean $\rightarrow E[X] = \frac{a+b}{2}$}
+    \begin{align*}
+        \int_a^b x \cdot \frac{1}{b-a} \, dx &= \frac{1}{2(b-a)} [x^2]_a^b = \frac{1}{2(b-a)} (b^2 - a^2) = \frac{a+b}{2}
+    \end{align*}
+    \item \textbf{variance $\rightarrow Var(X) = \frac{(b-a)^2}{12}$}
+    \begin{align*}
+        Var(X) &= E[X^2] - (E[X])^2 \\
+        E[X^2] &= \int_a^b x^2 \cdot \frac{1}{b-a} \, dx = \frac{1}{3(b-a)} [x^3]_a^b = \frac{b^3 - a^3}{3(b-a)} = \frac{b^2 + a^2 + ab}{3} \\
+        Var(X) &= \frac{b^2 + a^2 + ab}{3} - \left(\frac{a+b}{2}\right)^2 \\
+        &= \frac{b^2 + a^2 + ab}{3} - \frac{a^2 + b^2 + 2ab}{4} \\
+        &= \frac{4a^2 + 4b^2 + 4ab - 3a^2 - 3b^2 - 6ab}{12} \\
+        &= \frac{a^2 + b^2 - 2ab}{12} = \frac{(b-a)^2}{12}
+    \end{align*}
+\end{itemize}
+
+\subsubsection*{2) Normal (or Gaussian)}
+Here mean ($\mu$) and variance ($\sigma^2$) are the parameters for defining the distribution. (Bell curve)
+
+pdf $\rightarrow f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$
+\begin{itemize}
+    \item \textbf{mean $\rightarrow E[X] = \mu$}
+    \begin{align*}
+        E[X] &= \int_{-\infty}^\infty x \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}} \, dx \\
+        &\text{put } z = \frac{x-\mu}{\sigma} \text{ i.e. } x = z\sigma + \mu, \, dx = \sigma dz \\
+        &= \int_{-\infty}^\infty \frac{z\sigma + \mu}{\sqrt{2\pi\sigma^2}} e^{-\frac{z^2}{2}} \sigma \, dz \\
+        &= \frac{\sigma}{\sqrt{2\pi}} \underbrace{\int_{-\infty}^\infty z e^{-\frac{z^2}{2}} \, dz}_{\text{odd fn } \rightarrow 0} + \mu \underbrace{\int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}} \, dz}_{\text{Standard Normal dist, AUC}=1} \\
+        &= 0 + \mu(1) = \mu
+    \end{align*}
+
+    \item \textbf{variance $\rightarrow Var(X) = \sigma^2$}
+    \begin{align*}
+        Var(X) &= E[(X-\mu)^2] = \int_{-\infty}^\infty (x-\mu)^2 \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}} \, dx \\
+        &\text{put } z = \frac{x-\mu}{\sigma} \text{ i.e. } x = z\sigma + \mu, \, dx = \sigma dz \\
+        &= \int_{-\infty}^\infty \frac{z^2 \sigma^2}{\sqrt{2\pi\sigma^2}} e^{-\frac{z^2}{2}} \sigma \, dz \\
+        &= \sigma^2 \int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}} z^2 e^{-\frac{z^2}{2}} \, dz \\
+        &\text{Use by parts:} \\
+        &= \sigma^2 \frac{1}{\sqrt{2\pi}} \left( \left[ -z e^{-z^2/2} \right]_{-\infty}^\infty + \int_{-\infty}^\infty e^{-\frac{z^2}{2}} \, dz \right) \\
+        &= \sigma^2 \left( 0 + \underbrace{\int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}} \, dz}_{\text{Standard Normal Dist.}} \right) \\
+        &= \sigma^2
+    \end{align*}
+\end{itemize}
+
+\section*{\textcolor{secondary}{4. Independence, Covariance, and Conditional Probability}}
+
+\subsection*{Independence and Covariance}
+\begin{itemize}
+    \item $A$ and $B$ are independent if $P(A \cap B) = P(A)P(B)$.
+    \item Random variables $X, Y$ are independent if their joint distribution factors: 
+    \[ f(x,y) = f_X(x) \cdot f_Y(y) \]
+    \textit{(Marginal probability dist $X=x$ and ignore $Y$)}
+    \item For independent $X$ \& $Y \rightarrow E[XY] = E[X]E[Y]$ and $Var(X+Y) = Var(X) + Var(Y)$.
+\end{itemize}
+
+\textbf{\# Covariance measures dir\textsuperscript{n} of dependence}
+\[ Cov(X,Y) = E[XY] - E[X]E[Y] \]
+
+\textbf{The correlation coefficient normalises to $[-1, 1]$:}
+\[ \rho(X,Y) = \frac{Cov(X,Y)}{\sigma_X \sigma_Y} \]
+\begin{itemize}
+    \item $\rho = 0 \rightarrow$ uncorrelated but not necessarily independent.
+    \item $\rho = 1 \rightarrow$ perfect +ve linear relationship (converse is true tho).
+    \item $\rho = -1 \rightarrow$ perfect -ve linear relationship.
+\end{itemize}
+
+\subsection*{Conditional Probability and Bayes' Theorem}
+\[ P(A|B) = \frac{P(A \cap B)}{P(B)} \]
+
+\textbf{Bayes' Thm:}
+\[ P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)} \]
+
+\end{document}
