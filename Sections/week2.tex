@@ -1,0 +1,137 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{xcolor}
+
+\definecolor{primary}{RGB}{0, 105, 148}
+\definecolor{secondary}{RGB}{10, 150, 120}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+\begin{document}
+
+\begin{center}
+    \Large\textbf{\textcolor{primary}{Introduction to Markov Chains}}
+\end{center}
+
+\vspace{0.5cm}
+
+\section*{\textcolor{secondary}{Stochastic Process:}}
+A stochastic process is simply a collection of random variables, usually indexed by time: $\{X_t, t \in T\}$\\
+where, $t$ is time (discrete or continuous)\\
+$X_t$ is the state of the process at time $t$
+
+\# The set of all possible values that $X_t$ can take is called the \textbf{state space}.
+
+\section*{\textcolor{secondary}{Markov Property (Memorylessness):}}
+A sequence of random variables is a Markov Chain if it possesses the Markov Property.
+
+Mathematically:
+\[ P(X_{n+1} = j \mid X_n = i, X_{n-1} = i_{n-1}, \dots, X_0 = i_0) = P(X_{n+1} = j \mid X_n = i) \]
+
+i.e. The probability of moving to state $j$ tomorrow ($X_{n+1}$), given the entire history of the system from day zero, is exactly the same as the probability of moving to state $j$ given only where we are today ($X_n = i$).
+
+\section*{\textcolor{secondary}{One-Step Transition Probabilities ($P_{ij}$):}}
+The probability of transitioning from state $i$ to state $j$ in exactly one time step is $P_{ij}$.
+\[ P_{ij} = P(X_{n+1} = j \mid X_n = i) \]
+
+These $P_{ij}$'s should satisfy two rules:
+\begin{enumerate}
+    \item Non-negativity: $P_{ij} \geq 0$
+    \item Row sums to 1: $\sum_{j=0}^{\infty} P_{ij} = 1 \quad \forall i$
+\end{enumerate}
+
+\section*{\textcolor{secondary}{Transition Probability Matrix ($P$):}}
+All these individual transition probabilities when packaged into a single square matrix ($P$)
+\[ P = \begin{bmatrix} P_{00} & P_{01} & P_{02} & \dots \\ P_{10} & P_{11} & \dots \\ \vdots & \vdots \\ P_{i0} & P_{i1} & \dots \\ \vdots & \vdots \end{bmatrix} \]
+
+\vspace{0.5cm}
+
+\section*{\textcolor{primary}{Chapman - Kolmogorov Equations:}}
+\textbf{\textcolor{secondary}{Core Problem:}} We know $P_{ij}$ which is probability of going from $i$ to $j$ in exactly 1 step.
+
+But what if we want to know the probability of going from $i$ to $j$ in exactly $n$ steps?\\
+We denote this as $P_{ij}^{(n)}$.
+
+\textbf{\textcolor{secondary}{Equation:}} \\
+To figure out the probability of going from $i$ to $j$ in $n+m$ steps, you have to account for every possible intermediate state $k$.
+
+Formally:
+\[ P_{ij}^{(n+m)} = \sum_{k=0}^{\infty} P_{ik}^{(n)} P_{kj}^{(m)} \]
+
+If we let $P^{(n)}$ denote the matrix of n-step transition probabilities $P_{ij}^{(n)}$, then
+\[ P^{(n+m)} = P^{(n)} \cdot P^{(m)} \]
+$\hookrightarrow$ matrix multiplication
+
+\section*{\textcolor{primary}{Examples}}
+From Introduction to Probability Models by Sheldon Ross:
+
+\textbf{Example 4.10.} An urn always contains 2 balls. Ball colors are red and blue. At each
+stage a ball is randomly chosen and then replaced by a new ball, which with probability 0.8 is the same color, and with probability 0.2 is the opposite color, as the ball it
+replaces. If initially both balls are red, find the probability that the fifth ball selected is
+red.
+
+\textbf{Solution:}
+\begin{minipage}[t]{0.5\textwidth}
+\textbf{states:} \\
+state 0 $\rightarrow$ 0 Red 2 Blue \\
+state 1 $\rightarrow$ 1 Red 1 Blue \\
+state 2 $\rightarrow$ 2 Red 0 Blue
+\end{minipage}
+\begin{minipage}[t]{0.45\textwidth}
+Let $X_n$ be the no. of red balls in urn after $n$th selection and subsequent replacement.
+\end{minipage}
+
+\vspace{0.5cm}
+\textbf{Transition Matrix:}
+\[ P = \begin{bmatrix} 0.8 & 0.2 & 0 \\ 0.1 & 0.8 & 0.1 \\ 0 & 0.2 & 0.8 \end{bmatrix} \]
+
+P(fifth selection is red)
+\begin{align*}
+    &= \sum_{i=0}^2 P(\text{fifth selection is red} \mid X_4 = i) P(X_4 = i \mid X_0 = 2) \\
+    &= (0) P_{2,0}^{(4)} + (0.5) P_{2,1}^{(4)} + (1) P_{2,2}^{(4)} \\
+    &= 0.7048 \quad (\text{after carrying matrix multiplications})
+\end{align*}
+
+\newpage
+
+\textbf{Example 4.11.} Suppose that balls are successively distributed among 8 urns, with
+each ball being equally likely to be put in any of these urns. What is the probability
+that there will be exactly 3 nonempty urns after 9 balls have been distributed?
+
+\textbf{Solution:} \\
+$\rightarrow$ $X_n$ be the no of nonempty urns after $n$ balls have been distributed. \\
+states: $0$ to $8$ \\
+$P_{i,i} = i/8$ \\
+$P_{i,i+1} = 1 - P_{i,i}$
+
+We want to find $P_{0,3}^{(9)}$.
+\[ P_{0,3}^{(9)} = P_{0,1}^{(1)} \cdot P_{1,3}^{(8)} = 1 \cdot P_{1,3}^{(8)} = P_{1,3}^{(8)} \]
+
+To build a transition matrix, we have states $1, 2, 3, 4$ (in fact, $\geq 4$ nonempty urns).
+\[ P = \begin{bmatrix} 1/8 & 7/8 & 0 & 0 \\ 0 & 2/8 & 6/8 & 0 \\ 0 & 0 & 3/8 & 5/8 \\ 0 & 0 & 0 & 1 \end{bmatrix} \]
+we need $P_{1,3}^{(8)}$.
+
+After Matrix multiplications
+\[ P_{1,3}^{(8)} = 0.00756 \]
+
+\vspace{3em}
+
+\textbf{Example 4.12.} In a sequence of independent flips of a fair coin, let $N$ denote the number of flips until there is a run of three consecutive heads. Find \\
+(a) $P(N \leq 8)$ and \\
+(b) $P(N = 8)$.
+
+\textbf{Solution:} \\
+$\rightarrow$ Markov chain, as we are currently on a run of $i$ consecutive heads. \\
+states: $0, 1, 2, 3$ ($3 \rightarrow$ 3 consecutive heads have already occurred)
+
+\[ P = \begin{bmatrix} 1/2 & 1/2 & 0 & 0 \\ 1/2 & 0 & 1/2 & 0 \\ 1/2 & 0 & 0 & 1/2 \\ 0 & 0 & 0 & 1 \end{bmatrix} \]
+
+We want: \\
+a) $P_{0,3}^{(8)}$ \\
+b) $P_{0,2}^{(7)} P_{2,3}^{(1)}$
+
+Calculate $P^7$ and $P^8$ to get the answer.
+
+\end{document}
