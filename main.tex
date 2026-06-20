@@ -1,0 +1,66 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{standalone} 
+
+% --- ALL REQUIRED PACKAGES ---
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{xcolor}
+\usepackage{listings}
+
+% --- GLOBAL COLOR DEFINITIONS ---
+\definecolor{primary}{RGB}{0, 105, 148}
+\definecolor{secondary}{RGB}{10, 150, 120}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% --- GLOBAL SPACING ---
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+% --- PYTHON CODE STYLE CONFIGURATION ---
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+\title{\vspace{-2cm}\textbf{\textcolor{primary}{Markov Chains}}} 
+\author{\textbf{Dhruv Parsewar}}
+\date{} % You can leave this blank with \date{} if you prefer
+
+\begin{document}
+
+\maketitle
+
+% Global math spacing
+\setlength{\jot}{12pt} 
+
+\input{Sections/week1}
+\newpage
+
+\input{Sections/week2}
+\newpage
+
+\input{Sections/week3}
+\newpage
+
+\input{Sections/week4}
+
+\end{document}
