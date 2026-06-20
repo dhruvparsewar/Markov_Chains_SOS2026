@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[12pt,a4paper]{article}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath, amssymb}
 \usepackage{xcolor}
@@ -6,25 +6,30 @@
 \definecolor{primary}{RGB}{0, 105, 148}
 \definecolor{secondary}{RGB}{10, 150, 120}
 
+% Clean text spacing
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.5em}
 
+% Title layout matching the Probability notes, but without an author
+\title{\vspace{-2cm}\textbf{\textcolor{primary}{Introduction to Markov Chains}}}
+\date{} % Empty date to keep it clean
+
 \begin{document}
 
-\begin{center}
-    \Large\textbf{\textcolor{primary}{Introduction to Markov Chains}}
-\end{center}
+% Adds vertical breathing room in align* environments
+\setlength{\jot}{12pt} 
 
-\vspace{0.5cm}
+\maketitle
+\vspace{-1.5cm} % Pulls the first section up slightly since there is no author/date
 
-\section*{\textcolor{secondary}{Stochastic Process:}}
+\section*{\textcolor{secondary}{Stochastic Process}}
 A stochastic process is simply a collection of random variables, usually indexed by time: $\{X_t, t \in T\}$\\
 where, $t$ is time (discrete or continuous)\\
 $X_t$ is the state of the process at time $t$
 
 \# The set of all possible values that $X_t$ can take is called the \textbf{state space}.
 
-\section*{\textcolor{secondary}{Markov Property (Memorylessness):}}
+\section*{\textcolor{secondary}{Markov Property (Memorylessness)}}
 A sequence of random variables is a Markov Chain if it possesses the Markov Property.
 
 Mathematically:
@@ -32,7 +37,7 @@ Mathematically:
 
 i.e. The probability of moving to state $j$ tomorrow ($X_{n+1}$), given the entire history of the system from day zero, is exactly the same as the probability of moving to state $j$ given only where we are today ($X_n = i$).
 
-\section*{\textcolor{secondary}{One-Step Transition Probabilities ($P_{ij}$):}}
+\section*{\textcolor{secondary}{One-Step Transition Probabilities ($P_{ij}$)}}
 The probability of transitioning from state $i$ to state $j$ in exactly one time step is $P_{ij}$.
 \[ P_{ij} = P(X_{n+1} = j \mid X_n = i) \]
 
@@ -42,13 +47,13 @@ These $P_{ij}$'s should satisfy two rules:
     \item Row sums to 1: $\sum_{j=0}^{\infty} P_{ij} = 1 \quad \forall i$
 \end{enumerate}
 
-\section*{\textcolor{secondary}{Transition Probability Matrix ($P$):}}
+\section*{\textcolor{secondary}{Transition Probability Matrix ($P$)}}
 All these individual transition probabilities when packaged into a single square matrix ($P$)
 \[ P = \begin{bmatrix} P_{00} & P_{01} & P_{02} & \dots \\ P_{10} & P_{11} & \dots \\ \vdots & \vdots \\ P_{i0} & P_{i1} & \dots \\ \vdots & \vdots \end{bmatrix} \]
 
 \vspace{0.5cm}
 
-\section*{\textcolor{primary}{Chapman - Kolmogorov Equations:}}
+\section*{\textcolor{primary}{Chapman - Kolmogorov Equations}}
 \textbf{\textcolor{secondary}{Core Problem:}} We know $P_{ij}$ which is probability of going from $i$ to $j$ in exactly 1 step.
 
 But what if we want to know the probability of going from $i$ to $j$ in exactly $n$ steps?\\
@@ -73,6 +78,8 @@ replaces. If initially both balls are red, find the probability that the fifth b
 red.
 
 \textbf{Solution:}
+
+\vspace{0.2cm}
 \begin{minipage}[t]{0.5\textwidth}
 \textbf{states:} \\
 state 0 $\rightarrow$ 0 Red 2 Blue \\

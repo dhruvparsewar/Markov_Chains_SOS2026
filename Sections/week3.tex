@@ -1,0 +1,215 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{xcolor}
+
+\definecolor{primary}{RGB}{0, 105, 148}
+\definecolor{secondary}{RGB}{10, 150, 120}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+\date{}
+
+\begin{document}
+
+\setlength{\jot}{12pt} 
+
+\vspace{-1.5cm}
+
+\section*{\textcolor{secondary}{State Classification}}
+
+\begin{itemize}
+    \item State $j$ is said to be accessible from state $i$ if $P_{ij}^n > 0$ for some $n \ge 0$.
+\end{itemize}
+
+\textbf{Proposition:} State $j$ is accessible from state $i$ if and only if, starting in $i$, it is possible that the process will ever enter state $j$.
+
+\textbf{Proof:} If $j$ is not accessible from $i$, then
+\begin{align*}
+    P\{\text{ever be in } j \mid \text{start in } i\} &= P\left\{ \bigcup_{n=0}^\infty \{X_n = j\} \middle| X_0 = i \right\} \\
+    &\le \sum_{n=0}^\infty P\{X_n = j \mid X_0 = i\} \\
+    &= \sum_{n=0}^\infty P_{ij}^n \\
+    &= 0
+\end{align*}
+
+\# Two states $i$ and $j$ that are accessible to each other are said to communicate, denoted by $i \leftrightarrow j$.
+
+The relation of communication follows three rules:
+\begin{enumerate}
+    \item A state always communicates with itself. (Type of reflexive property)
+    \item It works both ways. If state $i$ communicates with state $j$, then state $j$ automatically communicates with state $i$. (Type of symmetric property)
+    \item It creates a chain reaction. If state $i$ can reach state $j$, and state $j$ can reach state $k$, then state $i$ can definitely reach state $k$. The math equation in the image simply proves this: if it takes $n$ steps to get to $j$ and $m$ steps to get to $k$, it will take $n+m$ steps to get from $i$ to $k$. (Type of transitive property)
+\end{enumerate}
+
+\textbf{Classes:} States that all communicate with one another are grouped into a \textbf{class}. Two classes are either exactly the same or completely separate (disjoint).
+
+\textbf{Irreducible:} If every single state can reach every other state, the Markov chain is called \textbf{irreducible}.
+
+\textbf{Absorbing State:} A state from which no other state is accessible. State $i$ is absorbing if $P_{ii} = 1$.
+
+\vspace{2cm}
+
+Let $f_i$ denote the probability that, starting in state $i$, the process will \textit{ever} reenter state $i$.
+
+\textbf{\textcolor{primary}{\# Recurrent State:}} A state $i$ is recurrent if $f_i = 1$. If a process starts in a recurrent state, it will reenter that state with 100\% probability. After each reentry, it is like the process again starts over so if a state is recurrent then it will reenter infinitely often.
+
+\textbf{\textcolor{primary}{\# Transient State:}} A state $i$ is transient if $f_i < 1$. Each time the process enters a transient state, there is a positive probability ($1 - f_i$) that it will \textit{never} enter it again. The probability of being in state $i$ for exactly $n$ time periods is $f_i^{n-1}(1 - f_i)$ for $n \ge 1$.
+\begin{itemize}
+    \item The total number of time periods spent in a transient state follows a geometric distribution with a finite mean of $1/(1 - f_i)$.
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Corollary:} \\
+If state $i$ is recurrent, and state $i$ communicates with state $j$, then state $j$ is also recurrent.
+
+\textbf{Proof:} \\
+To prove this, we first note that since state $i$ communicates with state $j$, there exist integers $k$ and $m$ such that $P_{ij}^k > 0$ and $P_{ji}^m > 0$.
+
+Now, for any integer $n$:
+\[ P_{jj}^{m+n+k} \ge P_{ji}^m P_{ii}^n P_{ij}^k \]
+
+This inequality holds because the left side represents the total probability of going from state $j$ to state $j$ in $m + n + k$ steps. The right side represents the probability of going from $j$ to $j$ in $m + n + k$ steps via a specific, restricted path:
+\begin{enumerate}
+    \item Going from $j$ to $i$ in exactly $m$ steps.
+    \item Then going from $i$ to $i$ in an additional $n$ steps.
+    \item Then going from $i$ to $j$ in an additional $k$ steps.
+\end{enumerate}
+
+From the preceding inequality, we obtain, by summing over $n$, that:
+\[ \sum_{n=1}^\infty P_{jj}^{m+n+k} \ge P_{ji}^m P_{ij}^k \sum_{n=1}^\infty P_{ii}^n = \infty \]
+
+This evaluates to infinity because $P_{ji}^m P_{ij}^k > 0$ (as established by the definition of communication), and the summation $\sum_{n=1}^\infty P_{ii}^n$ is infinite because state $i$ is known to be recurrent.
+
+\vspace{0.5cm}
+
+\textbf{Example 4.18.} Consider the Markov chain having states 0, 1, 2, 3, 4 and
+\[ P = \begin{bmatrix} 
+1/2 & 1/2 & 0 & 0 & 0 \\ 
+1/2 & 1/2 & 0 & 0 & 0 \\ 
+0 & 0 & 1/2 & 1/2 & 0 \\ 
+0 & 0 & 1/2 & 1/2 & 0 \\ 
+1/4 & 1/4 & 0 & 0 & 1/2 
+\end{bmatrix} \]
+Determine the recurrent state.
+
+\textbf{Solution:} This chain consists of the three classes $\{0, 1\}$, $\{2, 3\}$, and $\{4\}$. The first two classes are recurrent and the third transient.
+
+\vspace{0.5cm}
+\section*{\textcolor{secondary}{Analysing States in a Random Walk}}
+
+Consider a Markov chain whose state space consists of the integers $i = 0, \pm 1, \pm 2, \dots$, and has transition probabilities given by $P_{i,i+1} = p = 1 - P_{i,i-1}, \, i = 0, \pm 1, \pm 2, \dots$ where $0 < p < 1$.
+
+Since all states clearly communicate, the states are either all transient or all recurrent. So we have to determine whether the summation $\sum_{n=1}^\infty P_{00}^n$ is finite or infinite.
+
+It is impossible to reenter the original state exactly in an odd number of moves. It is only possible to reenter the original state in an even number of moves if half the times we go right and half the times left.
+
+\begin{align*}
+    P_{00}^{2n} &= \binom{2n}{n} p^n (1-p)^n \\
+    &= \frac{(2n)!}{n!n!} (p(1-p))^n, \quad n = 1, 2, 3, \dots
+\end{align*}
+
+By using an approximation, due to Stirling, which asserts that:
+\begin{equation}
+    n! \sim n^{n+1/2} e^{-n} \sqrt{2\pi} \tag{4.3}
+\end{equation}
+where we say that $a_n \sim b_n$ when $\lim_{n \to \infty} a_n/b_n = 1$, we obtain:
+\[ \binom{2n}{n} \sim \frac{(2n)^{2n+1/2} e^{-2n} \sqrt{2\pi}}{n^{2n+1} e^{-2n} (2\pi)} = \frac{2^{2n}}{\sqrt{n\pi}} \]
+
+Hence,
+\[ P_{00}^{2n} \sim \frac{(4p(1-p))^n}{\sqrt{\pi n}} \]
+
+Now it is easy to verify, for positive $a_n, b_n$, that if $a_n \sim b_n$, then $\sum_n a_n < \infty$ if and only if $\sum_n b_n < \infty$. Hence, $\sum_{n=1}^\infty P_{00}^{2n}$ will converge if and only if
+\[ \sum_{n=1}^\infty \frac{(4p(1-p))^n}{\sqrt{\pi n}} \]
+does. However, $4p(1-p) \le 1$ with equality holding if and only if $p = 1/2$. Hence, $\sum_{n=1}^\infty P_{00}^{2n} = \infty$ if and only if $p = 1/2$. Thus, the chain is recurrent when $p = 1/2$ and transient if $p \ne 1/2$.
+
+Therefore for $p = 1/2$ all the states are recurrent, elsewhere transient.
+
+\# Also if we take a 2-dimensional walk i.e. 4 states (right, left, up, down), each having a probability of $1/4$, then here too all the states are recurrent.
+
+Interestingly, whereas the symmetric random walks in one and two dimensions are both recurrent, all higher-dimensional symmetric random walks turn out to be transient.
+
+\vspace{0.3cm}
+\textbf{For a 1-dimensional walk we can prove this in another way too:}
+
+Let $\beta = P(\text{ever return to } 0)$
+\begin{align*}
+    \beta &= P(\text{ever return to } 0 \mid X_1 = 1)p + P(\text{ever return to } 0 \mid X_1 = -1)(1 - p)
+\end{align*}
+
+Now, let $\alpha$ be the probability that the Markov chain currently in state $i$ will ever enter state $i - 1$, for any $i$.
+\begin{align*}
+    \alpha &= P(\text{ever return} \mid X_1 = 1, X_2 = 0)(1 - p) + P(\text{ever return} \mid X_1 = 1, X_2 = 2)p \\
+    &= 1 - p + P(\text{ever return} \mid X_1 = 1, X_2 = 2)p \\
+    &= 1 - p + p\alpha^2
+\end{align*}
+
+The two roots of this equation are $\alpha = 1$ and $\alpha = (1-p)/p$.
+
+In case of a Symmetric Random Walk, $p = 1/2$, we get $\alpha = 1$, proving that it is recurrent.
+
+Suppose now that $p > 1/2$, therefore:
+\[ \beta = \alpha p + 1 - p \]
+Because the random walk is transient in this case we know that $\beta < 1$, showing that $\alpha \ne 1$. \\
+Therefore, $\alpha = (1 - p)/p$, \\
+so, $\beta = 2(1 - p), \text{ for } p > 1/2$.
+
+Similarly, when $p < 1/2$ we can show that $\beta = 2p$.
+
+Thus in general,
+\[ P\{\text{ever return to } 0\} = 2 \min(p, 1 - p) \]
+
+\vspace{0.5cm}
+\newpage
+\section*{\textcolor{secondary}{Long-Run Proportions and Limiting Probabilities}}
+
+\textbf{Proposition:} If $i$ is recurrent and $i$ communicates with $j$, then $f_{ij} = 1$.
+
+In short: If state $i$ loops infinitely, and state $j$ can reach state $i$ and come back, then those infinite loops at $i$ drag $j$ into looping infinitely too.
+
+Let $N_j = \min\{n > 0 : X_n = j\}$. \\
+If state $j$ is recurrent, let $m_j$ denote the expected number of transitions that it takes the Markov chain when starting in state $j$ to return to that state.
+\[ m_j = E[N_j \mid X_0 = j] \]
+
+The recurrent state $j$ is \textbf{positive recurrent} if $m_j < \infty$ and it is \textbf{null recurrent} if $m_j = \infty$.
+
+\textbf{Proposition:} If the Markov chain is irreducible and recurrent, then for any initial state:
+\[ \pi_j = \frac{1}{m_j} \]
+
+\textbf{Proof:} \\
+Suppose the process starts in state $i$.
+\begin{itemize}
+    \item Let $T_1$ = the number of steps to reach state $j$ for the \textit{first} time.
+    \item Let $T_2, T_3, \dots, T_n$ = the number of steps between subsequent visits to state $j$.
+\end{itemize}
+
+The $n$-th visit to state $j$ happens at time $T_1 + T_2 + \dots + T_n$.
+
+Therefore, the proportion of time spent in state $j$ over the long run is $n$ visits divided by the total time it took to get there:
+\begin{align*}
+    \pi_j &= \lim_{n \to \infty} \frac{n}{\sum_{i=1}^n T_i} \\
+    \pi_j &= \lim_{n \to \infty} \frac{1}{\frac{1}{n} \sum_{i=1}^n T_i} \\
+    \pi_j &= \lim_{n \to \infty} \frac{1}{\frac{T_1}{n} + \frac{T_2 + \dots + T_n}{n}}
+\end{align*}
+
+As the number of visits ($n$) approaches infinity:
+\begin{itemize}
+    \item $\lim_{n \to \infty} \frac{T_1}{n} = 0$ (Because the time to first reach $j$ is finite, dividing it by infinity yields zero).
+    \item $\lim_{n \to \infty} \frac{T_2 + \dots + T_n}{n} = m_j$ (By the Strong Law of Large Numbers, the average of these repeated, identical return times converges exactly to their expected mean, $m_j$).
+\end{itemize}
+
+Therefore,
+\[ \pi_j = \frac{1}{0 + m_j} = \frac{1}{m_j} \]
+
+\# Imagine a Markov chain running for an infinitely long time. $\pi_j$ is the exact fraction (or percentage) of that total time the system spends sitting in state $j$.
+
+\# If you let the Markov chain run for a very long time, $\pi_j$ is the probability that you will find the system in state $j$ at some random point far in the future, regardless of where it originally started.
+
+\textbf{Proposition:} If $i$ is positive recurrent and $i \leftrightarrow j$ then $j$ is positive recurrent.
+
+\textbf{Theorem:} Consider an irreducible Markov chain. If the chain is positive recurrent, then the long-run proportions are the unique solution of the equations:
+\[ \pi_j = \sum_i \pi_i P_{ij}, \quad j \ge 0, \quad \sum_j \pi_j = 1 \]
+
+Moreover, if there is no solution to the preceding linear equations, then the Markov chain is either transient or null recurrent and all $\pi_j = 0$.
+
+\end{document}
