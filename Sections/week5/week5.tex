@@ -1,0 +1,133 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{xcolor}
+
+\definecolor{primary}{RGB}{0, 105, 148}
+\definecolor{secondary}{RGB}{10, 150, 120}
+
+% Clean text spacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+% Title layout matching the template
+\title{\vspace{-2cm}\textbf{\textcolor{primary}{Exponential Distribution and the Poisson Process}}}
+\date{} % Empty date to keep it clean
+
+\begin{document}
+
+% Adds vertical breathing room in align* environments
+\setlength{\jot}{12pt} 
+
+\maketitle
+\vspace{-1.5cm} % Pulls the first section up slightly
+
+\section*{\textcolor{secondary}{The Exponential Distribution}}
+A continuous random variable $X$ is said to have an exponential distribution with parameter $\lambda$, where $\lambda > 0$, if its probability density function (PDF) is given by:
+\[ f(x) = \begin{cases} \lambda e^{-\lambda x}, & x \ge 0 \\ 0, & x < 0 \end{cases} \]
+
+Equivalently, its cumulative distribution function (CDF) is given by:
+\[ F(x) = \int_{-\infty}^{x} f(y)dy = \begin{cases} 1 - e^{-\lambda x}, & x \ge 0 \\ 0, & x < 0 \end{cases} \]
+
+\section*{\textcolor{secondary}{Mean and Variance}}
+\textbf{\textcolor{primary}{Mean ($E[X]$)}}\\
+The mean is calculated using integration by parts where $u = x$, $dv = \lambda e^{-\lambda x}dx$:
+\begin{align*}
+E[X] &= \int_{0}^{\infty} x \lambda e^{-\lambda x} dx \\
+&= \left[ -xe^{-\lambda x} \right]_{0}^{\infty} + \int_{0}^{\infty} e^{-\lambda x} dx \\
+&= 0 + \left[ -\frac{1}{\lambda} e^{-\lambda x} \right]_{0}^{\infty} \\
+&= \frac{1}{\lambda}
+\end{align*}
+
+\textbf{\textcolor{primary}{Variance ($Var(X)$)}}\\
+First, compute $E[X^2]$ using integration by parts ($u = x^2$, $dv = \lambda e^{-\lambda x}dx$):
+\begin{align*}
+E[X^2] &= \int_{0}^{\infty} x^2 \lambda e^{-\lambda x} dx \\
+&= \left[ -x^2 e^{-\lambda x} \right]_{0}^{\infty} + 2\int_{0}^{\infty} x e^{-\lambda x} dx \\
+&= 2 \cdot \frac{1}{\lambda^2} = \frac{2}{\lambda^2}
+\end{align*}
+
+Now, compute the variance:
+\begin{align*}
+Var(X) &= E[X^2] - (E[X])^2 \\
+&= \frac{2}{\lambda^2} - \left(\frac{1}{\lambda}\right)^2 \\
+&= \frac{1}{\lambda^2}
+\end{align*}
+
+\section*{\textcolor{secondary}{The Memoryless Property}}
+A random variable $X$ is said to be without memory, or \textit{memoryless}, if:
+\[ P(X > s+t \mid X > t) = P(X > s) \quad \text{for all } s, t \ge 0 \]
+
+This is equivalent to stating:
+\[ P(X > s+t) = P(X > s)P(X > t) \]
+
+\textbf{Example:} \\
+Suppose the amount of time spent in a bank is exponentially distributed with a mean of 10 minutes ($\lambda = \frac{1}{10}$). 
+
+\textit{Probability of spending more than 15 minutes:}
+\[ P(X > 15) = e^{-15\lambda} = e^{-3/2} \approx 0.223 \]
+
+\textit{Probability of spending more than 15 minutes GIVEN she is still there after 10 minutes:}\\
+Because of the memoryless property, this is simply the probability of spending at least 5 \textit{more} minutes:
+\[ P(X > 5) = e^{-5\lambda} = e^{-1/2} \approx 0.607 \]
+
+\vspace{0.5cm}
+
+\section*{\textcolor{primary}{Properties of Multiple Exponential Variables}}
+\textbf{Proposition:} If $X_1, \dots, X_n$ are independent exponential random variables with a common rate $\lambda$, then their sum $\sum_{i=1}^{n} X_i$ is a gamma $(n, \lambda)$ random variable with density function:
+\[ f(t) = \lambda e^{-\lambda t} \frac{(\lambda t)^{n-1}}{(n-1)!}, \quad t > 0 \]
+\textbf{Probability of one variable being smaller than another:} \\
+If $X_1$ and $X_2$ are independent with rates $\lambda_1$ and $\lambda_2$:
+\begin{align*}
+P(X_1 < X_2) &= \int_{0}^{\infty} P(X_1 < X_2 \mid X_1 = x)\lambda_1 e^{-\lambda_1 x} dx \\
+&= \int_{0}^{\infty} e^{-\lambda_2 x} \lambda_1 e^{-\lambda_1 x} dx \\
+&= \frac{\lambda_1}{\lambda_1 + \lambda_2}
+\end{align*}
+
+
+\section*{\textcolor{primary}{The Poisson Process}}
+\textbf{\textcolor{secondary}{Counting Processes:}} \\
+A stochastic process $\{N(t), t \ge 0\}$ is a counting process if $N(t)$ represents the total number of ``events'' that occur by time $t$. It must satisfy:
+\begin{enumerate}
+    \item $N(t) \ge 0$
+    \item $N(t)$ is integer-valued.
+    \item If $s < t$, then $N(s) \le N(t)$.
+    \item For $s < t$, $N(t) - N(s)$ equals the number of events that occur in the interval $(s, t]$.
+\end{enumerate}
+
+\textit{Independent Increments:} A counting process possesses independent increments if the numbers of events that occur in disjoint time intervals are independent. 
+
+\vspace{0.5cm}
+
+\textbf{\textcolor{secondary}{Little-o Notation (Definition):}} \\
+The function $f(\cdot)$ is said to be $o(h)$ if:
+\[ \lim_{h \to 0} \frac{f(h)}{h} = 0 \]
+
+\textbf{\textcolor{secondary}{Definition (The Poisson Process):}} \\
+The counting process $\{N(t), t \ge 0\}$ is a Poisson process with rate $\lambda > 0$ if the following axioms hold:
+\begin{enumerate}
+    \item $N(0) = 0$
+    \item The process has independent increments.
+    \item $P(N(t+h) - N(t) = 1) = \lambda h + o(h)$
+    \item $P(N(t+h) - N(t) \ge 2) = o(h)$
+\end{enumerate}
+
+\vspace{0.5cm}
+
+\section*{\textcolor{secondary}{Interarrival Times and Sequence Distributions}}
+Let $T_1$ denote the time of the first event, and $T_n$ denote the time between the $(n-1)$st and $n$th event. The sequence $\{T_n, n=1, 2, \dots\}$ is the sequence of interarrival times.
+
+\textbf{Lemma:} \\
+$T_1, T_2, \dots$ are independent and identically distributed exponential random variables with rate $\lambda$.
+
+\textit{Proof for $T_1$:}
+\[ P(T_1 > t) = P(N(t) = 0) = e^{-\lambda t} \]
+
+Letting $S_n = \sum_{i=1}^{n} T_i$ be the time of the $n$th event, it follows from Proposition 5.1 that $S_n$ is a gamma $(n, \lambda)$ random variable:
+\[ f_{S_n}(s) = \lambda e^{-\lambda s} \frac{(\lambda s)^{n-1}}{(n-1)!}, \quad s > 0 \]
+
+\textbf{Theorem :} \\
+If $\{N(t), t \ge 0\}$ is a Poisson process with rate $\lambda$, then $N(t)$ is a Poisson random variable with rate $\lambda t$. That is:
+\[ P(N(t) = n) = e^{-\lambda t}\frac{(\lambda t)^n}{n!}, \quad n \ge 0 \]
+
+\end{document}
