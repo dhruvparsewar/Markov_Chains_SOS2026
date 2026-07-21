@@ -1,26 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage{amsmath, amssymb}
-\usepackage{xcolor}
+\begin{center}
+    \Large\textbf{\textcolor{primary}{Exponential Distribution and the Poisson Process}}
+\end{center}
+\vspace{0.5cm}
 
-\definecolor{primary}{RGB}{0, 105, 148}
-\definecolor{secondary}{RGB}{10, 150, 120}
-
-% Clean text spacing
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.5em}
-
-% Title layout matching the template
-\title{\vspace{-2cm}\textbf{\textcolor{primary}{Exponential Distribution and the Poisson Process}}}
-\date{} % Empty date to keep it clean
-
-\begin{document}
-
-% Adds vertical breathing room in align* environments
-\setlength{\jot}{12pt} 
-
-\maketitle
-\vspace{-1.5cm} % Pulls the first section up slightly
 
 \section*{\textcolor{secondary}{The Exponential Distribution}}
 A continuous random variable $X$ is said to have an exponential distribution with parameter $\lambda$, where $\lambda > 0$, if its probability density function (PDF) is given by:
@@ -129,5 +111,3 @@ Letting $S_n = \sum_{i=1}^{n} T_i$ be the time of the $n$th event, it follows fr
 \textbf{Theorem :} \\
 If $\{N(t), t \ge 0\}$ is a Poisson process with rate $\lambda$, then $N(t)$ is a Poisson random variable with rate $\lambda t$. That is:
 \[ P(N(t) = n) = e^{-\lambda t}\frac{(\lambda t)^n}{n!}, \quad n \ge 0 \]
-
-\end{document}

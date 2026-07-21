@@ -1,27 +1,7 @@
-\documentclass[12pt,a4paper]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage{amsmath, amssymb}
-\usepackage{enumitem}
-\usepackage{xcolor}
-
-\definecolor{primary}{RGB}{0, 105, 148}
-\definecolor{secondary}{RGB}{10, 150, 120}
-
-% Clean text spacing
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.5em}
-
-% Title layout matching the template
-\title{\vspace{-2cm}\textbf{\textcolor{primary}{DP Algorithms \& Model-Free RL}}}
-\date{} % Empty date to keep it clean
-
-\begin{document}
-
-% Adds vertical breathing room in align* environments
-\setlength{\jot}{12pt} 
-
-\maketitle
-\vspace{-1.5cm} % Pulls the first section up slightly
+\begin{center}
+    \Large\textbf{\textcolor{primary}{DP Algorithms \& Model-Free RL}}
+\end{center}
+\vspace{0.5cm}
 
 \section*{\textcolor{secondary}{Solving Known MDPs: Dynamic Programming}}
 
@@ -30,21 +10,21 @@ Policy evaluation is the process of calculating the state-value function ($V^\pi
 \[ V_{k+1}(s) = \sum_a \pi(a|s) \sum_{s', r} p(s', r \mid s, a) \left[ r + \gamma V_k(s') \right] \]
 
 \textbf{Pseudocode:}
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item \textbf{Input:}
-    \begin{itemize}[label=$\circ$]
+    \begin{itemize}
         \item The policy $\pi$ which we want to evaluate.
         \item An estimation threshold $\theta > 0$ to determine the accuracy of our estimation.
         \item Transition probabilities / Transition Matrix.
         \item Discount factor $\gamma \in [0,1]$.
     \end{itemize}
     \item \textbf{Process:}
-    \begin{itemize}[label=$\circ$]
+    \begin{itemize}
         \item Set the value of every state arbitrarily.
         \item Set the value of the terminal state to 0.
         \item Set $\Delta$ to 0.
         \item \textbf{Loop} until $\Delta < \theta$:
-        \begin{itemize}[label=--]
+        \begin{itemize}
             \item For each state in the state space:
             \item Store the current value of the state in a variable.
             \item Update the value of the state using the Bellman Expectation Equation.
@@ -61,20 +41,20 @@ Policy evaluation is the process of calculating the state-value function ($V^\pi
 Policy Iteration is an algorithm used to discover the optimal policy.
 
 \textbf{Pseudocode:}
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item \textbf{Input:}
-    \begin{itemize}[label=$\circ$]
+    \begin{itemize}
         \item An estimation threshold $\theta > 0$ to determine the accuracy of our estimation.
         \item Transition probabilities / Transition Matrix.
         \item Discount factor $\gamma \in [0,1]$.
     \end{itemize}
     \item \textbf{Process:}
-    \begin{itemize}[label=$\circ$]
+    \begin{itemize}
         \item Set the value of every state arbitrarily.
         \item Set $\Delta$ to 0.
         \item Start with an arbitrary policy and perform \textbf{Policy Evaluation}.
         \item Then perform \textbf{Policy Improvement}, for each state:
-        \begin{itemize}[label=--]
+        \begin{itemize}
             \item Store the current action and calculate the expected return for all possible actions.
             \item Select the action with the highest expected return.
             \item Update the policy to choose this action.
@@ -92,19 +72,19 @@ Value Iteration is an algorithm which helps in finding the optimal strategy fast
 \[ V_{k+1}(s) = \max_a \sum_{s', r} p(s', r \mid s, a) \left[ r + \gamma V_k(s') \right] \]
 
 \textbf{Pseudocode:}
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item \textbf{Input:}
-    \begin{itemize}[label=$\circ$]
+    \begin{itemize}
         \item An estimation threshold $\theta > 0$ to determine the accuracy of our estimation.
         \item Transition probabilities / Transition Matrix.
         \item Discount factor $\gamma \in [0,1]$.
     \end{itemize}
     \item \textbf{Process:}
-    \begin{itemize}[label=$\circ$]
+    \begin{itemize}
         \item Set the value of every state arbitrarily.
         \item Set the value of the terminal state to 0.
         \item \textbf{Loop} until the maximum change in state values ($\Delta$) becomes smaller than $\theta$:
-        \begin{itemize}[label=--]
+        \begin{itemize}
             \item Set $\Delta$ to 0.
             \item Repeatedly update the value of each state using the Bellman Optimality Equation.
         \end{itemize}
@@ -118,13 +98,13 @@ We will take an example of a small toy MDP for this comparison to highlight how 
 
 \textbf{\textcolor{primary}{Toy MDP Setup}} \\
 Imagine a $2 \times 2$ grid:
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item Top Left (TL) $\rightarrow$ Top Right (TR)
     \item Bottom Left (BL) $\rightarrow$ Bottom Right (BR)
 \end{itemize}
 \textbf{BR is our Goal.}
 
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item \textbf{Actions:} Up, Down, Left, Right.
     \item \textbf{Rewards:} Every step taken costs $-1$ \& stepping into goal (BR) gives $+10$.
     \item \textbf{Discount factor ($\gamma$):} $1$ (i.e., no discounting).
@@ -145,14 +125,14 @@ Initially, $V(TL)=0, \ V(TR)=0, \ V(BL)=0, \ V(BR)=0$.
 MC must wait until it hits a terminal state as it calculates cumulative return ($G_t$) from each state.
 
 \textbf{Work Backwards:}
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item From TR $\rightarrow$ only one step and total reward is 10. $\therefore G_{TR} = 10$.
     \item From TL $\rightarrow G_{TL} = (-1) + 10 = 9$.
     \item From BL $\rightarrow G_{BL} = (-1) + (-1) + 10 = 8$.
 \end{itemize}
 
 \textbf{Now update the values:}
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item \textbf{Update TR} $\rightarrow V(TR) \leftarrow V(TR) + \alpha [G_{TR} - V(TR)]$ \\
     $V(TR) \leftarrow 0 + 0.5[10 - 0] = 5$
     \item \textbf{Update TL} $\rightarrow V(TL) \leftarrow V(TL) + \alpha [G_{TL} - V(TL)]$ \\
@@ -168,7 +148,7 @@ MC must wait until it hits a terminal state as it calculates cumulative return (
 \textbf{\textcolor{primary}{2) Temporal Difference (TD) Execution}} \\
 TD updates the value immediately after every move, bootstrapping off the next state's current estimate.
 
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item \textbf{First step (BL $\rightarrow$ TL)} $\rightarrow R + \gamma V(TL) = -1 + 1(0) = -1$ \\
     $V(BL) \leftarrow V(BL) + 0.5[-1 - 0] = -0.5$
     \item \textbf{Second step (TL $\rightarrow$ TR)} $\rightarrow R + \gamma V(TR) = -1 + 1(0) = -1$ \\
@@ -194,4 +174,3 @@ TD updates the value immediately after every move, bootstrapping off the next st
 \end{tabular}
 \end{table}
 
-\end{document}

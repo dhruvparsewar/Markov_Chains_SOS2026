@@ -1,0 +1,84 @@
+\begin{center}
+    \Large\textbf{\textcolor{primary}{Code Walkthrough: Mechanics of the Q-Learning Agent}}
+\end{center}
+\vspace{0.5cm}
+
+This section breaks down the implementation of the Q-Learning algorithm within the Stochastic Gridworld environment, detailing how the agent represents the world, transitions between states, and updates its knowledge over time.
+
+\section*{\textcolor{secondary}{1. Environment Representation (The MDP)}}
+The environment, defined in the \texttt{StochasticGridworld} class, is a discrete representation of a Markov Decision Process (MDP).
+
+\textbf{\textcolor{primary}{States ($S$)}} \\
+The state space consists of every valid $(x, y)$ coordinate on a $5 \times 5$ grid.
+\begin{itemize}
+    \item \textbf{Agent Representation:} The agent tracks its current position as a simple tuple: \texttt{self.current\_state = (x, y)}.
+    \item \textbf{Total States:} $25$ distinct states.
+    \item \textbf{Special States:} The Start state is $(0,0)$. The Goal state is $(4,4)$. The Pits are located at $(1,1), (2,1), \text{ and } (3,1)$.
+\end{itemize}
+
+\textbf{\textcolor{primary}{Actions ($A$)}} \\
+At any given state, the agent has four possible discrete actions available to it:
+\begin{itemize}
+    \item \texttt{0}: Up
+    \item \texttt{1}: Right
+    \item \texttt{2}: Down
+    \item \texttt{3}: Left
+\end{itemize}
+
+\textbf{\textcolor{primary}{Rewards ($R$)}} \\
+The reward function is baked into the environment's \texttt{step()} method. The agent receives immediate feedback after every action:
+\begin{itemize}
+    \item \textbf{Goal:} $+10.0$
+    \item \textbf{Pit:} $-10.0$
+    \item \textbf{Standard Step:} $-0.1$ (This small penalty encourages the agent to find the shortest safe path, rather than wandering endlessly).
+\end{itemize}
+
+\section*{\textcolor{secondary}{2. The Transition Matrix ($P$) and Stochasticity}}
+In a deterministic environment, taking action $a$ in state $s$ guarantees moving to the intended next state $s'$. However, our environment incorporates a \texttt{slip\_prob} (e.g., $0.3$ or $30\%$). This means the transition is stochastic, forming the core Markov property of the system.
+
+While the code does not explicitly build a massive $25 \times 25$ transition matrix, the logic in the \texttt{step(action)} function mathematically functions exactly as one.
+
+When the agent attempts to move (e.g., Action = \texttt{0} [Up]):
+\begin{itemize}
+    \item \textbf{Intended Move ($1 - \text{slip\_prob}$):} With a $70\%$ chance, the agent moves Up.
+    \item \textbf{Slip Left ($\text{slip\_prob} / 2$):} With a $15\%$ chance, the agent slips and moves Left.
+    \item \textbf{Slip Right ($\text{slip\_prob} / 2$):} With a $15\%$ chance, the agent slips and moves Right.
+\end{itemize}
+
+If the agent is at state $s = (1,0)$ and chooses action $a = 0$ (Up), the implicit transition probabilities $P(s' \mid s, a)$ are:
+\begin{itemize}
+    \item $P((1,1) \mid (1,0), \text{Up}) = 0.70$ (Moves into the pit!)
+    \item $P((0,0) \mid (1,0), \text{Up}) = 0.15$ (Slips Left)
+    \item $P((2,0) \mid (1,0), \text{Up}) = 0.15$ (Slips Right)
+\end{itemize}
+The agent does not know these probabilities beforehand; it must discover them through interaction.
+
+\section*{\textcolor{secondary}{3. The Learning Loop: Updating the Q-Table}}
+The "brain" of the agent is the Q-table, initialized as a 3D NumPy array of zeros: \texttt{np.zeros((5, 5, 4))}. This table stores the expected cumulative return (Q-value) for taking a specific action in a specific state.
+
+\textbf{\textcolor{primary}{The $\epsilon$-Greedy Strategy (Exploration vs. Exploitation)}} \\
+In the \texttt{choose\_action()} method, the agent decides its next move.
+\begin{itemize}
+    \item It generates a random number. If the number is less than $\epsilon$ (epsilon), it selects a random action to explore the map.
+    \item Otherwise, it exploits its current knowledge by looking at the Q-table for its current state and choosing the action with the highest value (\texttt{np.argmax(self.q\_table[x, y])}).
+    \item Epsilon decays over time, meaning the agent explores wildly at first, but slowly shifts to pure exploitation as its Q-table becomes more accurate.
+\end{itemize}
+
+\textbf{\textcolor{primary}{The Bellman Update}} \\
+After every step, the agent receives a tuple: \texttt{(state, action, reward, next\_state)}. It uses this experience to update its Q-table via the Temporal Difference (TD) learning formula (the Bellman equation):
+
+\begin{lstlisting}[language=Python]
+best_next_q = np.max(self.q_table[nx, ny])
+td_target = reward + self.gamma * best_next_q
+td_error = td_target - self.q_table[x, y, action]
+self.q_table[x, y, action] += self.alpha * td_error
+\end{lstlisting}
+
+\begin{enumerate}
+    \item \textbf{Look Ahead (\texttt{best\_next\_q}):} The agent looks at the state it just landed in (\texttt{nx, ny}) and finds the maximum possible Q-value available from that state. This is its estimate of future rewards.
+    \item \textbf{Calculate Target (\texttt{td\_target}):} It adds the immediate \texttt{reward} it just received to the discounted future rewards ($\gamma \times \text{best\_next\_q}$). This forms the "target" value.
+    \item \textbf{Calculate Error (\texttt{td\_error}):} It compares this new target value to its old estimate (\texttt{self.q\_table[x, y, action]}).
+    \item \textbf{Update Table:} It adjusts its old estimate in the direction of the error, scaled by the learning rate ($\alpha$).
+\end{enumerate}
+
+Through thousands of episodes, the negative $-10$ rewards from falling into the pits propagate backward through the grid via this equation, lowering the Q-values of actions that lead near the pits, ultimately teaching the agent to avoid those states entirely.

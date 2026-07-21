@@ -1,30 +1,10 @@
-\documentclass[12pt,a4paper]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage{amsmath, amssymb}
-\usepackage{enumitem}
-\usepackage{xcolor}
-
-\definecolor{primary}{RGB}{0, 105, 148}
-\definecolor{secondary}{RGB}{10, 150, 120}
-
-% Clean text spacing
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.5em}
-
-% Title layout matching the template
-\title{\vspace{-2cm}\textbf{\textcolor{primary}{Introduction to MDPs \& RL Core Concepts}}}
-\date{} % Empty date to keep it clean
-
-\begin{document}
-
-% Adds vertical breathing room in align* environments
-\setlength{\jot}{12pt} 
-
-\maketitle
-\vspace{-1.5cm} % Pulls the first section up slightly
+\begin{center}
+    \Large\textbf{\textcolor{primary}{Introduction to MDPs \& RL Core Concepts}}
+\end{center}
+\vspace{0.5cm}
 
 \section*{\textcolor{secondary}{Introduction to Reinforcement Learning}}
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item \textbf{Core Concept:} RL is based on an agent learning by trial and error. Unlike supervised learning, the agent is not explicitly told what the correct action is; it must discover which actions yield the most reward by interacting with the world.
     \item \textbf{Reward Hypothesis:} All goals can be described by the maximization of expected total reward. If we want an agent to achieve a specific goal, we must provide rewards to it in such a way that maximizing those rewards corresponds perfectly with achieving the goal.
     \item \textbf{Delayed Rewards:} Rewards may be delayed, meaning an action taken now can result in positive or negative rewards much later in the future (after multiple steps in a trajectory). This introduces the challenge of \textit{credit assignment}, determining which past actions were responsible for a future outcome.
@@ -34,7 +14,7 @@
 \noindent\textbf{Environment:} The world that the agent lives in, interacts with, and learns from. The environment defines the rules of the universe, including state transitions and reward logic.\\
 \\
 \textbf{The Loop:} The interaction unfolds in a sequence of discrete time steps, $t = 0, 1, 2, 3, \dots$ At each step $t$:
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item \textbf{Agent:} Executes an action $A_t$, receives an observation $O_t$, and receives a scalar reward $R_t$.
     \item \textbf{Environment:} Receives the action $A_t$, updates its internal state, emits the next observation $O_{t+1}$, and emits a scalar reward $R_{t+1}$.
 \end{itemize}
@@ -43,7 +23,7 @@ In summary: The agent sees a state $\rightarrow$ takes an action $\rightarrow$ r
 \section*{\textcolor{secondary}{History, State, and Observability}}
 
 \textbf{\textcolor{primary}{History and State}}
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item \textbf{History ($H_t$):} The complete sequence of observations, actions, and rewards up to time $t$: 
     \[ H_t = O_1, R_1, A_1, \dots, A_{t-1}, O_t, R_t \]
     What happens next depends entirely on the history.
@@ -52,7 +32,7 @@ In summary: The agent sees a state $\rightarrow$ takes an action $\rightarrow$ r
 \end{itemize}
 
 \textbf{\textcolor{primary}{Types of State}}
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item \textbf{Environment State ($S_t^e$):} The environment's private representation. It contains whatever data the environment uses to pick the next observation/reward. It is not usually visible to the agent and often contains irrelevant or redundant information.
     \item \textbf{Agent State ($S_t^a$):} The agent's internal representation. It contains whatever information the agent uses to pick the next action. This is the information used and updated by RL algorithms.
     \item \textbf{Information State (Markov State):} Contains all useful information from the history. A state $S_t$ is Markov if and only if it follows the Markov Property: 
@@ -61,7 +41,7 @@ In summary: The agent sees a state $\rightarrow$ takes an action $\rightarrow$ r
 \end{itemize}
 
 \textbf{\textcolor{primary}{Observability}}
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item \textbf{Fully Observable Environments:} The agent directly observes the complete environment state ($O_t = S_t^a = S_t^e$). This is formally modeled as a \textbf{Markov Decision Process (MDP)}.
     \item \textbf{Partially Observable Environments:} The agent indirectly observes the environment (e.g., a robot with limited camera vision). Here, $S_t^a \neq S_t^e$. Formally, this is a \textbf{Partially Observable Markov Decision Process (POMDP)}. The agent must construct its own state representation, perhaps using beliefs or recurrent neural networks.
 \end{itemize}
@@ -72,14 +52,14 @@ An RL agent typically includes one or more of the following key elements, operat
 
 \vspace{0.5cm}
 \textbf{\textcolor{primary}{1. Policy ($\pi$)}}
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item The agent's behavior function, serving as a map from the perceived states of the environment to the actions to be taken. It is the core of the RL agent.
     \item \textbf{Deterministic Policy:} $a = \pi(s)$. Maps a state exactly to one specific action.
     \item \textbf{Stochastic Policy:} $\pi(a \mid s) = P[A_t = a \mid S_t = s]$. Outputs a probability distribution over actions, which is highly useful for exploration.
 \end{itemize}
 
 \textbf{\textcolor{primary}{2. Reward ($R$) and Return ($G$)}}
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item \textbf{Reward Signal:} Defines the immediate, short-term goal of the RL problem.
     \item \textbf{Return ($G_t$):} The total expected cumulative reward from time step $t$.
     \item \textbf{Discount Factor ($\gamma \in [0, 1]$):} A mathematical factor used to ensure the sum of future rewards converges in infinite-horizon problems, and to represent uncertainty about the future. The discounted return is defined as:
@@ -88,7 +68,7 @@ An RL agent typically includes one or more of the following key elements, operat
 \end{itemize}
 
 \textbf{\textcolor{primary}{3. Value Functions}}
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item Functions that predict the expected return to evaluate the goodness or badness of situations, helping the agent select between actions.
     \item \textbf{State-Value Function ($V_\pi(s)$):} Measures how good it is to be in a specific state $s$ under policy $\pi$.
     \[ V_\pi(s) = \mathbb{E}_\pi [G_t \mid S_t = s] \]
@@ -98,7 +78,7 @@ An RL agent typically includes one or more of the following key elements, operat
 \end{itemize}
 
 \textbf{\textcolor{primary}{4. Model (Optional)}}
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item The agent's internal representation used to predict what the environment will do next. Agents that use models are called \textbf{Model-Based} (using planning), while those that don't are \textbf{Model-Free} (learning directly from experience).
     \item \textbf{Transitions (Dynamics):} Predicts the next state: $\mathcal{P}_{ss'}^a = P[S_{t+1}=s' \mid S_t=s, A_t=a]$.
     \item \textbf{Rewards:} Predicts the next immediate reward: $\mathcal{R}_s^a = \mathbb{E}[R_{t+1} \mid S_t=s, A_t=a]$.
@@ -106,10 +86,8 @@ An RL agent typically includes one or more of the following key elements, operat
 
 \section*{\textcolor{secondary}{Exploration vs. Exploitation}}
 This is the fundamental trade-off the agent faces while learning:
-\begin{itemize}[label=$\bullet$]
+\begin{itemize}
     \item \textbf{Exploration:} Trying out new, untested actions to gather more information about the environment. This helps discover better long-term strategies.
     \item \textbf{Exploitation:} Using known information to choose the action that is currently expected to yield the highest reward to maximize short-term gains.
     \item \textbf{Common Strategies:} A standard approach to balance this is the \textbf{$\epsilon$-greedy} strategy, where the agent exploits the best known action with probability $1-\epsilon$, and explores a random action with probability $\epsilon$.
 \end{itemize}
-
-\end{document}
