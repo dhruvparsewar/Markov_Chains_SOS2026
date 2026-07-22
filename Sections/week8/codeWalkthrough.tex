@@ -5,7 +5,7 @@
 
 This section breaks down the implementation of the Q-Learning algorithm within the Stochastic Gridworld environment, detailing how the agent represents the world, transitions between states, and updates its knowledge over time.
 
-\section*{\textcolor{secondary}{1. Environment Representation (The MDP)}}
+\section{\textcolor{secondary}{Environment Representation (The MDP)}}
 The environment, defined in the \texttt{StochasticGridworld} class, is a discrete representation of a Markov Decision Process (MDP).
 
 \textbf{\textcolor{primary}{States ($S$)}} \\
@@ -33,7 +33,7 @@ The reward function is baked into the environment's \texttt{step()} method. The 
     \item \textbf{Standard Step:} $-0.1$ (This small penalty encourages the agent to find the shortest safe path, rather than wandering endlessly).
 \end{itemize}
 
-\section*{\textcolor{secondary}{2. The Transition Matrix ($P$) and Stochasticity}}
+\subsection{\textcolor{secondary}{The Transition Matrix ($P$) and Stochasticity}}
 In a deterministic environment, taking action $a$ in state $s$ guarantees moving to the intended next state $s'$. However, our environment incorporates a \texttt{slip\_prob} (e.g., $0.3$ or $30\%$). This means the transition is stochastic, forming the core Markov property of the system.
 
 While the code does not explicitly build a massive $25 \times 25$ transition matrix, the logic in the \texttt{step(action)} function mathematically functions exactly as one.
@@ -53,7 +53,7 @@ If the agent is at state $s = (1,0)$ and chooses action $a = 0$ (Up), the implic
 \end{itemize}
 The agent does not know these probabilities beforehand; it must discover them through interaction.
 
-\section*{\textcolor{secondary}{3. The Learning Loop: Updating the Q-Table}}
+\subsection{\textcolor{secondary}{The Learning Loop: Updating the Q-Table}}
 The "brain" of the agent is the Q-table, initialized as a 3D NumPy array of zeros: \texttt{np.zeros((5, 5, 4))}. This table stores the expected cumulative return (Q-value) for taking a specific action in a specific state.
 
 \textbf{\textcolor{primary}{The $\epsilon$-Greedy Strategy (Exploration vs. Exploitation)}} \\

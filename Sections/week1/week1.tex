@@ -5,7 +5,7 @@
 \end{center}
 \vspace{0.5cm}
 
-\section*{\textcolor{secondary}{1. Random Variables and Expectation}}
+\section{\textcolor{secondary}{Random Variables and Expectation}}
 
 \begin{itemize}
     \item \textbf{Discrete random variables} $\rightarrow$ probability mass function (pmf): 
@@ -14,7 +14,7 @@
     \[ P(a \leq X \leq b) = \int_a^b f(x) \, dx \]
 \end{itemize}
 
-\subsection*{Expectation ($E[X]$) $\rightarrow$ probability weighted average}
+\subsection{Expectation ($E[X]$) $\rightarrow$ probability weighted average}
 \begin{align*}
     \text{Discrete} &\rightarrow E[X] = \sum x_i p_i \\
     \text{Continuous} &\rightarrow E[X] = \int x f(x) \, dx
@@ -27,7 +27,7 @@
     \\ \textit{(random variable when its value is 1 if it happens, otherwise 0)}
 \end{enumerate}
 
-\section*{\textcolor{secondary}{2. Variance and Key Properties}}
+\section{\textcolor{secondary}{Variance and Key Properties}}
 
 \textbf{Variance:} $Var(X) = E[X^2] - (E[X])^2$
 
@@ -43,7 +43,7 @@
 
 \textbf{Standard Deviation:} $\sqrt{Var(X)}$ \quad \textit{(By defn)}
 
-\subsection*{Properties of Variance}
+\subsection{Properties of Variance}
 \begin{enumerate}
     \item \textbf{Constant:} $Var(aX+b) = a^2 Var(X)$
     \begin{align*}
@@ -70,11 +70,11 @@
     \textit{coz for independent $X$ and $Y$, $E[XY] = E[X]E[Y]$}
 \end{enumerate}
 
-\section*{\textcolor{secondary}{3. Some Common Probability Distributions}}
+\section{\textcolor{secondary}{Some Common Probability Distributions}}
 
-\subsection*{Discrete Distributions}
+\subsection{Discrete Distributions}
 
-\subsubsection*{1) Bernoulli}
+\subsubsection{Bernoulli}
 pmf $\rightarrow P(X=1) = p$ (success), $P(X=0) = 1-p$
 \begin{itemize}
     \item \textbf{mean $\rightarrow E[X] = p$}
@@ -92,7 +92,7 @@ pmf $\rightarrow P(X=1) = p$ (success), $P(X=0) = 1-p$
     \end{align*}
 \end{itemize}
 
-\subsubsection*{2) Binomial}
+\subsubsection{Binomial}
 pmf $\rightarrow P(X=k) = \binom{n}{k} p^k (1-p)^{n-k}$ \quad \textit{($n \rightarrow$ total trials, $k \rightarrow$ success)}
 \begin{itemize}
     \item \textbf{mean $\rightarrow E[X] = np$}
@@ -123,7 +123,7 @@ pmf $\rightarrow P(X=k) = \binom{n}{k} p^k (1-p)^{n-k}$ \quad \textit{($n \right
     \end{align*}
 \end{itemize}
 
-\subsubsection*{3) Poisson}
+\subsubsection{Poisson}
 Binomial to Poisson $\rightarrow$ imagine taking $n$ trials and multiplying them toward infinity, while prob. $p$ of each trial shrinks towards zero, such that avg rate of success ($n \times p$) remains const. $\rightarrow$ this constant is $\lambda$ (rate).
 
 pmf $\rightarrow P(X=k) = \frac{e^{-\lambda} \lambda^k}{k!}$ for $k \geq 0$
@@ -151,10 +151,10 @@ pmf $\rightarrow P(X=k) = \frac{e^{-\lambda} \lambda^k}{k!}$ for $k \geq 0$
 \end{itemize}
 
 \newpage
-\subsection*{Continuous Distributions}
+\subsection{Continuous Distributions}
 \textit{\# Total area = 1 ofc}
 
-\subsubsection*{1) Uniform}
+\subsubsection{Uniform}
 pdf $\rightarrow f(x) = \frac{1}{b-a}$ for $a \leq x \leq b$ ($a \rightarrow$ lower limit, $b \rightarrow$ upper limit)
 \begin{itemize}
     \item \textbf{mean $\rightarrow E[X] = \frac{a+b}{2}$}
@@ -172,7 +172,7 @@ pdf $\rightarrow f(x) = \frac{1}{b-a}$ for $a \leq x \leq b$ ($a \rightarrow$ lo
     \end{align*}
 \end{itemize}
 
-\subsubsection*{2) Normal (or Gaussian)}
+\subsubsection{Normal (or Gaussian)}
 Here mean ($\mu$) and variance ($\sigma^2$) are the parameters for defining the distribution. (Bell curve)
 
 pdf $\rightarrow f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$
@@ -199,9 +199,9 @@ pdf $\rightarrow f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sig
     \end{align*}
 \end{itemize}
 
-\section*{\textcolor{secondary}{4. Independence, Covariance, and Conditional Probability}}
+\section{\textcolor{secondary}{Independence, Covariance, and Conditional Probability}}
 
-\subsection*{Independence and Covariance}
+\subsection{Independence and Covariance}
 \begin{itemize}
     \item $A$ and $B$ are independent if $P(A \cap B) = P(A)P(B)$.
     \item Random variables $X, Y$ are independent if their joint distribution factors: 
@@ -221,9 +221,8 @@ pdf $\rightarrow f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sig
     \item $\rho = -1 \rightarrow$ perfect -ve linear relationship.
 \end{itemize}
 
-\subsection*{Conditional Probability and Bayes' Theorem}
+\subsection{Conditional Probability and Bayes' Theorem}
 \[ P(A|B) = \frac{P(A \cap B)}{P(B)} \]
 
 \textbf{Bayes' Thm:}
 \[ P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)} \]
-

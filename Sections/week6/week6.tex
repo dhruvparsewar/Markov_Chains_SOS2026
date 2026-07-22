@@ -3,14 +3,14 @@
 \end{center}
 \vspace{0.5cm}
 
-\section*{\textcolor{secondary}{Introduction to Reinforcement Learning}}
+\section{\textcolor{secondary}{Introduction to Reinforcement Learning}}
 \begin{itemize}
     \item \textbf{Core Concept:} RL is based on an agent learning by trial and error. Unlike supervised learning, the agent is not explicitly told what the correct action is; it must discover which actions yield the most reward by interacting with the world.
     \item \textbf{Reward Hypothesis:} All goals can be described by the maximization of expected total reward. If we want an agent to achieve a specific goal, we must provide rewards to it in such a way that maximizing those rewards corresponds perfectly with achieving the goal.
     \item \textbf{Delayed Rewards:} Rewards may be delayed, meaning an action taken now can result in positive or negative rewards much later in the future (after multiple steps in a trajectory). This introduces the challenge of \textit{credit assignment}, determining which past actions were responsible for a future outcome.
 \end{itemize}
 
-\section*{\textcolor{secondary}{The Agent-Environment Interaction}}
+\subsection{\textcolor{secondary}{The Agent-Environment Interaction}}
 \noindent\textbf{Environment:} The world that the agent lives in, interacts with, and learns from. The environment defines the rules of the universe, including state transitions and reward logic.\\
 \\
 \textbf{The Loop:} The interaction unfolds in a sequence of discrete time steps, $t = 0, 1, 2, 3, \dots$ At each step $t$:
@@ -20,7 +20,7 @@
 \end{itemize}
 In summary: The agent sees a state $\rightarrow$ takes an action $\rightarrow$ receives a reward signal and the next state from the environment.
 
-\section*{\textcolor{secondary}{History, State, and Observability}}
+\subsection{\textcolor{secondary}{History, State, and Observability}}
 
 \textbf{\textcolor{primary}{History and State}}
 \begin{itemize}
@@ -47,7 +47,7 @@ In summary: The agent sees a state $\rightarrow$ takes an action $\rightarrow$ r
 \end{itemize}
 
 
-\section*{\textcolor{secondary}{Major Components of an RL Agent}}
+\section{\textcolor{secondary}{Major Components of an RL Agent}}
 An RL agent typically includes one or more of the following key elements, operating within an \textbf{Action Space} ($\mathcal{A}$), which is the set of all valid actions available to the agent.
 
 \vspace{0.5cm}
@@ -84,7 +84,7 @@ An RL agent typically includes one or more of the following key elements, operat
     \item \textbf{Rewards:} Predicts the next immediate reward: $\mathcal{R}_s^a = \mathbb{E}[R_{t+1} \mid S_t=s, A_t=a]$.
 \end{itemize}
 
-\section*{\textcolor{secondary}{Exploration vs. Exploitation}}
+\section{\textcolor{secondary}{Exploration vs. Exploitation}}
 This is the fundamental trade-off the agent faces while learning:
 \begin{itemize}
     \item \textbf{Exploration:} Trying out new, untested actions to gather more information about the environment. This helps discover better long-term strategies.

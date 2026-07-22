@@ -3,7 +3,7 @@
 \end{center}
 \vspace{0.5cm}
 
-\section*{\textcolor{secondary}{Solving Known MDPs: Dynamic Programming}}
+\section{\textcolor{secondary}{Solving Known MDPs: Dynamic Programming}}
 
 \textbf{\textcolor{primary}{1) Policy Evaluation}} \\
 Policy evaluation is the process of calculating the state-value function ($V^\pi(s)$). It tells us the goodness or badness of a certain policy ($\pi$). For this, we use the Bellman Expectation Equation for the state-value function:
@@ -93,7 +93,7 @@ Value Iteration is an algorithm which helps in finding the optimal strategy fast
     \item \textbf{Output:} Optimal policy $\pi^*$ and the optimal value function $V^*(s)$ corresponding to that policy.
 \end{itemize}
 
-\section*{\textcolor{secondary}{Introduction to Model-Free RL: MC vs TD}}
+\section{\textcolor{secondary}{Introduction to Model-Free RL: MC vs TD}}
 We will take an example of a small toy MDP for this comparison to highlight how learning from experience differs from Dynamic Programming.
 
 \textbf{\textcolor{primary}{Toy MDP Setup}} \\
@@ -173,4 +173,3 @@ TD updates the value immediately after every move, bootstrapping off the next st
 \textbf{$V(BL)$} & $4$ & $-0.5$ \\ \hline
 \end{tabular}
 \end{table}
-

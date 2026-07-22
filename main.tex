@@ -7,10 +7,11 @@
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{xcolor}
 \usepackage{listings}
+\usepackage{graphicx} % Added for the logo image
 
 % --- GLOBAL COLOR DEFINITIONS ---
-\definecolor{primary}{RGB}{0, 105, 148}
-\definecolor{secondary}{RGB}{10, 150, 120}
+\definecolor{primary}{RGB}{0, 0, 0}
+\definecolor{secondary}{RGB}{0, 0, 0}
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
@@ -41,13 +42,37 @@
 }
 \lstset{style=mystyle}
 
-\title{\vspace{-2cm}\textbf{\textcolor{primary}{Markov Chains}}} 
-\author{\textbf{Dhruv Parsewar}}
-\date{} % You can leave this blank with \date{} if you prefer
-
 \begin{document}
 
-\maketitle
+% --- CUSTOM TITLE PAGE ---
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    
+    \includegraphics[width=0.4\textwidth]{logo.png}
+    
+    \vspace{2.5cm}
+    
+    {\large \textbf{Summer of Science 2026}}
+    
+    \vspace{2.5cm}
+    
+    {\Huge \textbf{Markov Chains} \\ \vspace{0.3cm} \textbf{CS26}}
+    
+    \vspace{3cm}
+    
+    {\Large Dhruv Parsewar}
+    
+    \vspace{1.5cm}
+    
+    {\Large \textbf{Mentor :} Abhineet Majety}
+    
+    \vfill
+\end{titlepage}
+
+% Generates the Table of Contents
+\tableofcontents
+\newpage
 
 % Global math spacing
 \setlength{\jot}{12pt} 

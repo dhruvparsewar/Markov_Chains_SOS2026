@@ -3,7 +3,7 @@
 \end{center}
 \vspace{0.5cm}
 
-\section*{\textcolor{secondary}{1. Problem Statement}}
+\section{\textcolor{secondary}{Problem Statement}}
 The objective of this implementation is to demonstrate how a model-free Reinforcement Learning agent (using Q-Learning) adapts its policy when navigating an environment with varying degrees of uncertainty.
 
 In classic deterministic pathfinding algorithms (such as A* or Dijkstra's), an agent assumes perfect execution of its actions. However, real-world environments are inherently stochastic. If a robot attempts to move forward, wheel slip or uneven terrain might cause it to veer off course.
@@ -11,7 +11,7 @@ In classic deterministic pathfinding algorithms (such as A* or Dijkstra's), an a
 We aim to model this uncertainty using a Markov Decision Process (MDP) in a $5 \times 5$ Gridworld. The environment contains a highly rewarding goal state and a series of dangerous ``pit'' states. By manipulating the ``slip probability''---the chance that an agent moves perpendicularly to its intended direction---we aim to observe how the optimal policy transitions from a reckless shortest-path strategy to a cautious, risk-averse strategy.
 
 \vspace{0.5cm}
-\section*{\textcolor{secondary}{2. Proposed Solution}}
+\subsection{\textcolor{secondary}{Proposed Solution}}
 To solve this, we propose building a Tabular Q-Learning agent. The solution comprises two main architectural components:
 
 \begin{itemize}
@@ -22,7 +22,7 @@ To solve this, we propose building a Tabular Q-Learning agent. The solution comp
 By training two separate agents---one in a deterministic environment (slip = $0.0$) and one in a stochastic environment (slip = $0.3$)---we can directly compare their converged policies.
 
 \vspace{0.5cm}
-\section*{\textcolor{secondary}{3. Code Implementation \& Markov Chain Integration}}
+\subsection{\textcolor{secondary}{Code Implementation \& Markov Chain Integration}}
 The Python implementation explicitly models the components of a Markov Decision Process $(S, A, P, R, \gamma)$.
 
 \textbf{\textcolor{primary}{The Environment (State, Actions, Transitions, Rewards)}}
@@ -52,7 +52,7 @@ self.q_table[x, y, action] += self.alpha * td_error
 Because the transitions are stochastic, the agent falls into the pits multiple times during training. The negative reward propagates backward through the Q-table, mathematically lowering the expected value of taking actions near the pits.
 
 \newpage
-\section*{\textcolor{secondary}{4. Results and Analysis}}
+\subsection{\textcolor{secondary}{Results and Analysis}}
 After training both agents, we extracted the optimal policy \texttt{np.argmax(self.q\_table[x, y])} for each state. The results clearly demonstrate the agent's adaptation to stochasticity.
 
 \textbf{\textcolor{primary}{Scenario A: Deterministic Environment (Slip Probability = 0.0)}}

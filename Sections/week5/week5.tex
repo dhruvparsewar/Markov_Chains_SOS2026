@@ -3,15 +3,14 @@
 \end{center}
 \vspace{0.5cm}
 
-
-\section*{\textcolor{secondary}{The Exponential Distribution}}
+\section{\textcolor{secondary}{The Exponential Distribution}}
 A continuous random variable $X$ is said to have an exponential distribution with parameter $\lambda$, where $\lambda > 0$, if its probability density function (PDF) is given by:
 \[ f(x) = \begin{cases} \lambda e^{-\lambda x}, & x \ge 0 \\ 0, & x < 0 \end{cases} \]
 
 Equivalently, its cumulative distribution function (CDF) is given by:
 \[ F(x) = \int_{-\infty}^{x} f(y)dy = \begin{cases} 1 - e^{-\lambda x}, & x \ge 0 \\ 0, & x < 0 \end{cases} \]
 
-\section*{\textcolor{secondary}{Mean and Variance}}
+\subsection{\textcolor{secondary}{Mean and Variance}}
 \textbf{\textcolor{primary}{Mean ($E[X]$)}}\\
 The mean is calculated using integration by parts where $u = x$, $dv = \lambda e^{-\lambda x}dx$:
 \begin{align*}
@@ -36,7 +35,7 @@ Var(X) &= E[X^2] - (E[X])^2 \\
 &= \frac{1}{\lambda^2}
 \end{align*}
 
-\section*{\textcolor{secondary}{The Memoryless Property}}
+\subsection{\textcolor{secondary}{The Memoryless Property}}
 A random variable $X$ is said to be without memory, or \textit{memoryless}, if:
 \[ P(X > s+t \mid X > t) = P(X > s) \quad \text{for all } s, t \ge 0 \]
 
@@ -55,7 +54,7 @@ Because of the memoryless property, this is simply the probability of spending a
 
 \vspace{0.5cm}
 
-\section*{\textcolor{primary}{Properties of Multiple Exponential Variables}}
+\subsection{\textcolor{primary}{Properties of Multiple Exponential Variables}}
 \textbf{Proposition:} If $X_1, \dots, X_n$ are independent exponential random variables with a common rate $\lambda$, then their sum $\sum_{i=1}^{n} X_i$ is a gamma $(n, \lambda)$ random variable with density function:
 \[ f(t) = \lambda e^{-\lambda t} \frac{(\lambda t)^{n-1}}{(n-1)!}, \quad t > 0 \]
 \textbf{Probability of one variable being smaller than another:} \\
@@ -66,8 +65,7 @@ P(X_1 < X_2) &= \int_{0}^{\infty} P(X_1 < X_2 \mid X_1 = x)\lambda_1 e^{-\lambda
 &= \frac{\lambda_1}{\lambda_1 + \lambda_2}
 \end{align*}
 
-
-\section*{\textcolor{primary}{The Poisson Process}}
+\section{\textcolor{primary}{The Poisson Process}}
 \textbf{\textcolor{secondary}{Counting Processes:}} \\
 A stochastic process $\{N(t), t \ge 0\}$ is a counting process if $N(t)$ represents the total number of ``events'' that occur by time $t$. It must satisfy:
 \begin{enumerate}
@@ -96,7 +94,7 @@ The counting process $\{N(t), t \ge 0\}$ is a Poisson process with rate $\lambda
 
 \vspace{0.5cm}
 
-\section*{\textcolor{secondary}{Interarrival Times and Sequence Distributions}}
+\subsection{\textcolor{secondary}{Interarrival Times and Sequence Distributions}}
 Let $T_1$ denote the time of the first event, and $T_n$ denote the time between the $(n-1)$st and $n$th event. The sequence $\{T_n, n=1, 2, \dots\}$ is the sequence of interarrival times.
 
 \textbf{Lemma:} \\
