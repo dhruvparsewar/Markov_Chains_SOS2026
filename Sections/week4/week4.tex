@@ -27,29 +27,23 @@ class MarkovChain:
         return np.linalg.matrix_power(self.transition_matrix, n)
 
     def calculate_stationary_distribution(self):
-        # To Calculate the stationary distribution (pi) where pi*P = pi.
-        # This is equivalent to finding the left eigenvector associated with eigenvalue 1.
 
-        # First Transpose the matrix to find left eigenvectors using standard right eigenvector functions
         eigenvalues, eigenvectors = np.linalg.eig(self.transition_matrix.T)
-        # Then find the index of the eigenvalue that is closest to 1
         eigen_1_index = np.argmin(np.abs(eigenvalues - 1.0))
-        # Then extract the corresponding eigenvector
         stationary_vector = eigenvectors[:, eigen_1_index].real
-        # And finally normalize the vector so probabilities sum to 1
         stationary_distribution = stationary_vector / np.sum(stationary_vector)
         
         return stationary_distribution
 
     def display_stationary(self):
-        # To print the stationary distribution in a readable format
+
         pi = self.calculate_stationary_distribution()
         print("\n>>> Stationary Distribution <<<")
         for state, prob in zip(self.states, pi):
             print(f"State {state}: {prob:.4f} ({prob*100:.2f}%)")
 
     def get_absorbing_states(self):
-        # To get absorbing states
+
         absorbing = []
         for i, state in enumerate(self.states):
             if np.isclose(self.transition_matrix[i, i], 1.0):
@@ -57,9 +51,7 @@ class MarkovChain:
         return absorbing
 
     def simulate_path(self, start_state, num_steps):
-        # To simulates a random walk through the Markov Chain.
 
-        # The starting state should be a valid state ofc
         if start_state not in self.states:
             raise ValueError(f"State '{start_state}' not found in state space.")
             
@@ -77,10 +69,8 @@ class MarkovChain:
         return path
 
     def get_communicating_classes(self):
-        # To identify communicating classes (Strongly Connected Components) using reachability to help classify states as transient or recurrent.
 
         n = len(self.states)
-        # First we will need a Boolean reachability matrix (which answers, can i reach j directly?)
         reachability = np.zeros((n, n), dtype=bool)
         np.fill_diagonal(reachability, True)
         reachability = reachability | (self.transition_matrix > 0)
@@ -96,7 +86,6 @@ class MarkovChain:
         classes = []
         for i in range(n):
             if i not in visited:
-                # A class includes all states 'j' where 'i' can reach 'j' AND 'j' can reach 'i'
                 current_class_indices = [j for j in range(n) if reachability[i, j] and reachability[j, i]]
                 classes.append([self.states[idx] for idx in current_class_indices])
                 visited.update(current_class_indices)

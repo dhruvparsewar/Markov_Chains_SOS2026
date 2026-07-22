@@ -4,11 +4,11 @@
 \vspace{0.5cm}
 
 \section{\textcolor{secondary}{Problem Statement}}
-The objective of this implementation is to demonstrate how a model-free Reinforcement Learning agent (using Q-Learning) adapts its policy when navigating an environment with varying degrees of uncertainty.
+The objective of this implementation is to demonstrate how a model-free Reinforcement Learning agent which is using Q-Learning adapts its policy when navigating an environment with uncertainty.
 
-In classic deterministic pathfinding algorithms (such as A* or Dijkstra's), an agent assumes perfect execution of its actions. However, real-world environments are inherently stochastic. If a robot attempts to move forward, wheel slip or uneven terrain might cause it to veer off course.
+In classic deterministic pathfinding algorithms, an agent assumes perfect execution of its actions. However, real-world environments are mainly stochastic.
 
-We aim to model this uncertainty using a Markov Decision Process (MDP) in a $5 \times 5$ Gridworld. The environment contains a highly rewarding goal state and a series of dangerous ``pit'' states. By manipulating the ``slip probability''---the chance that an agent moves perpendicularly to its intended direction---we aim to observe how the optimal policy transitions from a reckless shortest-path strategy to a cautious, risk-averse strategy.
+We aim to model this uncertainty using a Markov Decision Process (MDP) in a $5 \times 5$ Gridworld. The environment contains a highly rewarding goal state and ``pit'' states which reward negatively. By manipulating the ``slip probability'' the chance that an agent moves perpendicularly to its intended direction, we aim to observe how the optimal policy transitions from the standard shortest-path strategy to a cautious, risk-averse strategy.
 
 \vspace{0.5cm}
 \subsection{\textcolor{secondary}{Proposed Solution}}
@@ -19,7 +19,7 @@ To solve this, we propose building a Tabular Q-Learning agent. The solution comp
     \item \textbf{The Agent (\texttt{QLearningAgent}):} A model-free learning algorithm that interacts with the environment. It uses an $\epsilon$-greedy strategy to explore the grid and updates a $5 \times 5 \times 4$ Q-table using the Bellman Optimality Equation.
 \end{itemize}
 
-By training two separate agents---one in a deterministic environment (slip = $0.0$) and one in a stochastic environment (slip = $0.3$)---we can directly compare their converged policies.
+By training two separate agents: one in a deterministic environment (slip = $0.0$) and one in a stochastic environment (slip = $0.3$), we can directly compare their converged policies.
 
 \vspace{0.5cm}
 \subsection{\textcolor{secondary}{Code Implementation \& Markov Chain Integration}}
